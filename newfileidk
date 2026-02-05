@@ -1,0 +1,61 @@
+import tensorflow as tf
+from tensorflow.keras.preprocessing import image_dataset_from_directory
+from tensorflow.keras import datasets, layers, models
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+
+# Define paths (Train and Test main folders)
+train_dir = r"C:\Users\rpaka\OneDrive\Desktop\New folder\Train"
+test_dir  = r"C:\Users\rpaka\OneDrive\Desktop\New folder\Test"
+
+# Load training dataset
+train_ds = image_dataset_from_directory(
+    train_dir,
+    image_size=(224, 224),
+    batch_size=32,
+    label_mode="categorical"   # multi-class classification
+)
+
+# Load testing dataset
+test_ds = image_dataset_from_directory(
+    test_dir,
+    image_size=(224, 224),
+    batch_size=32,
+    label_mode="categorical"
+)
+
+# Class names
+class_names = train_ds.class_names
+print("Classes found:", class_names)
+
+# Normalize datasets
+train_ds = train_ds.map(lambda x, y: (x/255.0, y))
+test_ds = test_ds.map(lambda x, y: (x/255.0, y))
+
+# Define CNN model
+model = models.Sequential([
+    layers.Conv2D(32, (3,3), activation='relu', input_shape=(224,224,3)),
+    layers.MaxPooling2D((2,2)),
+    layers.Conv2D(64, (3,3), activation='relu'),
+    layers.MaxPooling2D((2,2)),
+    layers.Conv2D(128, (3,3), activation='relu'),
+    layers.MaxPooling2D((2,2)),
+    layers.Flatten(),
+    layers.Dense(128, activation='relu'),
+    layers.Dropout(0.3),
+    layers.Dense(len(class_names), activation='softmax')  # Output layer
+])
+
+# Compile model
+model.compile(optimizer='adam',
+              loss='categorical_crossentropy',
+              metrics=['accuracy'])
+
+# Train model
+history = model.fit(train_ds, validation_data=test_ds, epochs=10)
+
+# Evaluate model
+loss, acc = model.evaluate(test_ds)
+print(f"Test Accuracy: {acc*100:.2f}%")
+print(f"Test Loss: {loss:.4f}")
