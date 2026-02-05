@@ -1,0 +1,7 @@
+tensorflow>=2.10.0
+opencv-python>=4.6.0
+numpy>=1.21.0
+ultralytics>=8.0.0
+pillow>=8.0.0
+psutil>=5.8.0
+picamera2>=0.3.0
