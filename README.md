@@ -1,6 +1,6 @@
-# Passenger Monitoring System
+# Embedded AI-Based In-Cabin Surveillance System For Fully Autonomous Cabs
 
-A real-time video-based passenger monitoring system with violence detection capabilities designed for Raspberry Pi and webcam environments.
+A real-time video-based passenger monitoring system with embedded AI-powered violence detection capabilities designed for Raspberry Pi and other edge devices in autonomous vehicles.
 
 ## Features
 
